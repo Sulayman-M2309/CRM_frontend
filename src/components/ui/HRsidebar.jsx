@@ -159,7 +159,7 @@ export function HRdashboardSidebar() {
                 </SidebarMenuItem>
               </NavLink>
               <NavLink
-                to={"/HR/dashboard/Requests"}
+                to={"/HR/dashboard/requestes"}
                 className={({ isActive }) => {
                   return isActive ? "bg-blue-200 rounded-lg" : "";
                 }}

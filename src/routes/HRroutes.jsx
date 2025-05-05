@@ -70,7 +70,7 @@ export const HRRoutes = [
         element: <InterviewInsights></InterviewInsights>,
       },
       {
-        path: "/HR/dashboard/Requests",
+        path: "/HR/dashboard/requestes",
         element: <Requests></Requests>,
       },
       {
