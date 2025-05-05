@@ -2,6 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiService } from "../apis/apiService";
 import { HREndPoints } from "../apis/APIsEndpoints";
 
+// Common error handler
+const handleError = (error, fallbackMsg = "Something went wrong") => {
+  return error?.response?.data || { message: error?.message || fallbackMsg };
+};
+
 // GET
 export const HandleGetHumanResources = createAsyncThunk(
   "HR/get",
@@ -12,7 +17,7 @@ export const HandleGetHumanResources = createAsyncThunk(
       const response = await apiService.get(endpoint, { withCredentials: true });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(handleError(error, "Failed to GET data"));
     }
   }
 );
@@ -34,7 +39,7 @@ export const HandlePostHumanResources = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(handleError(error, "Failed to POST data"));
     }
   }
 );
@@ -52,7 +57,7 @@ export const HandlePutHumanResources = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(handleError(error, "Failed to PUT data"));
     }
   }
 );
@@ -70,7 +75,7 @@ export const HandlePatchHumanResources = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(handleError(error, "Failed to PATCH data"));
     }
   }
 );
@@ -88,7 +93,7 @@ export const HandleDeleteHumanResources = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(handleError(error, "Failed to DELETE data"));
     }
   }
 );

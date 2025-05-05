@@ -24,14 +24,13 @@ export const HRLogin = () => {
         e.preventDefault();
         loadingbar.current.continuousStart();
         dispatch(HandlePostHumanResources({ apiroute: "LOGIN", data: signinform }))
-
-    }
-
-    if (HRState.error.status) {
-        loadingbar.current.complete()
     }
 
     useEffect(() => {
+        if (HRState.error?.status) {
+            loadingbar.current.complete()
+        }
+
         if (!HRState.isAuthenticated) {
             dispatch(HandleGetHumanResources({ apiroute: "CHECKLOGIN" }))
         }
@@ -40,14 +39,23 @@ export const HRLogin = () => {
             loadingbar.current.complete()
             navigate("/auth/HR/dashboard")
         }
-    }, [HRState.isAuthenticated])
-
+    }, [HRState?.isAuthenticated, HRState.error?.status])
 
     return (
         <div>
             <div className="employee-login-content flex justify-center items-center h-[100vh]">
                 <LoadingBar ref={loadingbar} />
-                <SignIn image={"../../src/assets/Employee-Welcome.jpg"} handlesigninform={handlesigninform} handlesigninsubmit={handlesigninsubmit} targetedstate={HRState} statevalue={signinform} redirectpath={"/auth/HR/forgot-password"} />
+                {/* Wrap the form in a <form> element */}
+                <form onSubmit={handlesigninsubmit}>
+                    <SignIn 
+                        image={"../../src/assets/Employee-Welcome.jpg"} 
+                        handlesigninform={handlesigninform} 
+                        handlesigninsubmit={handlesigninsubmit} 
+                        targetedstate={HRState} 
+                        statevalue={signinform} 
+                        redirectpath={"/auth/HR/forgot-password"} 
+                    />
+                </form>
             </div>
         </div>
     )

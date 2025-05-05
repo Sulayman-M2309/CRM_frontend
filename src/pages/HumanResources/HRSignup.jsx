@@ -21,8 +21,8 @@ export const HRSignupPage = () => {
     lastname: "",
     email: "",
     contactnumber: "",
-    password: " ",
-    textpassword: " ",
+    password: "",
+    textpassword: "",
     name: "",
     description: "",
     OrganizationURL: "",
@@ -36,11 +36,13 @@ export const HRSignupPage = () => {
   const handlesubmitform = (event) => {
     event.preventDefault();
 
+    // Check password match
     if (signupform.textpassword !== signupform.password) {
       seterrorpopup(true);
       return;
     }
 
+    // Clear error if passwords match
     seterrorpopup(false);
     loadingbar.current.continuousStart();
     dispatch(
@@ -66,10 +68,11 @@ export const HRSignupPage = () => {
   }, [HRState.isAuthenticated, HRState.isVerified, dispatch, navigate]);
 
   useEffect(() => {
-    if (HRState.error.status) {
+    if (HRState.error?.status) {
       loadingbar.current.complete();
+      seterrorpopup(true); // Display the error message if there's an error
     }
-  }, [HRState.error.status]);
+  }, [HRState.error?.status]);
 
   return (
     <div className="HRsignup-page-container h-screen flex justify-center items-center">
@@ -79,6 +82,7 @@ export const HRSignupPage = () => {
         handlesignupform={handlesignupform}
         handlesubmitform={handlesubmitform}
         errorpopup={errorpopup}
+        errorMessage={HRState.error?.message} // Pass the error message from HRState to the SignUP component
       />
     </div>
   );
